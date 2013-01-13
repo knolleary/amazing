@@ -1,0 +1,9 @@
+{
+    "owner_email": "nick.oleary@gmail.com",
+    "publication_api_version": "1.0",
+    "name": "Maze-a-Day",
+    "description": "A daily maze to get lost in",
+    "delivered_on": "every day",
+    "send_delivery_count": "false",
+    "external_configuration": "false"
+}

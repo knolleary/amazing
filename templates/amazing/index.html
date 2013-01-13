@@ -1,0 +1,210 @@
+<html>
+<head>
+<style>
+body {
+   padding:10px 0 0 0;
+   margin:0;
+}
+
+#header {
+   text-align: center;
+}
+#footer {
+   text-align: center;
+   margin-bottom: 10px;
+}
+#page {
+   width: 384px;
+}
+#box {
+   font-size: 10px;
+   border-radius: 2px;
+   position: relative;
+   height: 485px;
+   margin:30px 6px;
+}
+#box div {
+   border: 1px solid rgba(255,255,255,0);
+   border-radius: 2px;
+   position: absolute;
+}
+</style>
+<script>
+
+var north = 1;
+var east = 2;
+var south = 4;
+var west = 8;
+
+function init() {
+   var w = 19;
+   var h = 25;
+   var d = 19;
+   var e = document.getElementById('box');
+   
+   var m = [];
+   for (var i = 0; i<w*h;i+=1) {
+      m.push({v:false,w:north|east|south|west});
+   }
+
+   var activeSet = [];
+   var node = Math.floor(Math.random()*w*h);
+   activeSet.push(node);
+   while(activeSet.length > 0) {
+      var index = activeSet.length-1;
+      var node = activeSet[index];
+      m[node].v = true;
+      
+      var nn = [];
+      var x = node%w;
+      var y = Math.floor(node/w);
+      if (y > 0) {
+         var northIndex = ((y-1)*w)+x;
+         if (!m[northIndex].v) {
+            nn.push({i:northIndex,w:north,w2:south});
+         }
+      }
+      if (y < h-1) {
+         var southIndex = ((y+1)*w)+x;
+         if (!m[southIndex].v) {
+            nn.push({i:southIndex,w:south,w2:north});
+         }
+      }
+      if (x > 0) {
+         var westIndex = (y*w)+x-1;
+         if (!m[westIndex].v) {
+            nn.push({i:westIndex,w:west,w2:east});
+         }
+      }
+      if (x < w-1) {
+         var eastIndex = (y*w)+x+1;
+         if (!m[eastIndex].v) {
+            nn.push({i:eastIndex,w:east,w2:west});
+         }
+      }
+      if (nn.length == 0) {
+         activeSet.splice(index,1)
+      } else {
+         var next = nn[Math.floor(Math.random()*nn.length)];
+         activeSet.push(next.i);
+         m[node].w &= ~next.w;
+         m[next.i].w &= ~next.w2;
+      }
+   }
+   
+   
+   var bottomX = Math.floor(Math.random()*w);
+   var topX = Math.floor(Math.random()*w);
+   
+   for (var y = 0;y<h;y+=1) {
+      for (var x = 0;x<w;x+=1) {
+         var div = document.createElement("div");
+         div.style.top = (y*d)+"px";
+         div.style.left = (3+x*d)+"px";
+         div.style.width = d+"px";
+         div.style.height = d+"px";
+         var index = y*w+x;
+         //div.innerHTML = m[index].w;
+         if (y > 0 && (m[index].w&north)!=0) {
+            div.style.borderTop = "1px solid black";
+         }
+         if ( y == 0 && x != topX) {
+            div.style.borderTop = "2px solid black";
+            div.style.height = (d-1)+"px";
+         }
+         if ((m[index].w&east)!=0) {
+            div.style.borderRight = "1px solid black";
+         }
+         if ( x == w-1 ) {
+            div.style.borderRight = "2px solid black";
+            div.style.width = (d-1)+"px";
+         }
+         if (y < h-1 && (m[index].w&south)!=0) {
+            div.style.borderBottom = "1px solid black";
+         }
+         if (y == h-1 && x != bottomX) {
+            div.style.borderBottom = "2px solid black";
+            div.style.height = (d-1)+"px";
+         }
+         if ((m[index].w&west)!=0) {
+            div.style.borderLeft = "1px solid black";
+         }
+         if ( x == 0 ) {
+            div.style.borderLeft = "2px solid black";
+            div.style.width = (d-1)+"px";
+         }
+         if (x == 0 && y == 0) {
+            div.style.borderTopLeftRadius = "10px";
+         }
+         if (x == w-1 && y == 0) {
+            div.style.borderTopRightRadius = "10px";
+         }
+         if (x == 0 && y == h-1) {
+            div.style.borderBottomLeftRadius = "10px";
+         }
+         if (x == w-1 && y == h-1) {
+            div.style.borderBottomRightRadius = "10px";
+         }
+         
+         e.appendChild(div);
+      }
+   }
+   
+   function createGoal(x,y) {
+      var div = document.createElement("div");
+      div.style.top = 5+(y*d)+"px";
+      div.style.left = 5+(3+x*d)+"px";
+      div.style.width = (d-12)+"px";
+      div.style.height = (d-12)+"px";
+      
+      div.style.border = "2px solid #000";
+      div.style.borderRadius = (d)+"px";
+      e.appendChild(div);
+   }
+   
+   createGoal(Math.floor(Math.random()*w/3),Math.floor(Math.random()*h/3));
+   createGoal(Math.floor((2*w/3)+Math.random()*w/3),Math.floor(Math.random()*h/3));
+
+   createGoal(Math.floor(Math.random()*w/3),Math.floor((2*h/3)+Math.random()*h/3));
+   createGoal(Math.floor((2*w/3)+Math.random()*w/3),Math.floor((2*h/3)+Math.random()*h/3));
+
+   createGoal(Math.floor((w/3)+Math.random()*w/3),Math.floor((h/3)+Math.random()*h/3));
+   
+   var start = document.createElement("div");
+   start.style.top = (-1*(d/2))+"px";
+   start.style.left = ((d/4)+topX*d)+"px";
+   start.style.width = "0px";
+   start.style.height = "0px";
+   start.style.borderRadius = "0";
+   start.style.borderLeft = (d/2-1)+"px solid #fff";
+   start.style.borderTop = (d/2-1)+"px solid #000";
+   start.style.borderRight = (d/2-1)+"px solid #fff";
+   e.appendChild(start);
+   
+   var end = document.createElement("div");
+   end.style.top = (8+h*d)+"px";
+   end.style.left = ((d/4)+bottomX*d)+"px";
+   end.style.width = "0px";
+   end.style.height = "0px";
+   end.style.borderRadius = "0";
+   end.style.borderLeft = (d/2-1)+"px solid #fff";
+   end.style.borderTop = (d/2-1)+"px solid #000";
+   end.style.borderRight = (d/2-1)+"px solid #fff";
+   e.appendChild(end);
+   
+   
+   
+}
+</script>
+
+</head>
+<body onload="init();">
+<div id="page">
+<div id="header"><img src="http://foo.knolleary.net/kahiti/amazing/header.png" /></div>
+<div id="box">
+</div>
+<div id="footer"><img src="http://foo.knolleary.net/kahiti/amazing/footer.png" /></div>
+</div>
+
+</body>
+</html>
