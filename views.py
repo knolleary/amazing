@@ -4,13 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import hashlib
 from datetime import datetime
 
-def index(request):
-  context = {}
-  return render_to_response('amazing/index.html',context)
- 
-
-def render():
-  context = {}
+def render(context):
   response = render_to_response('amazing/index.html',context)
   m = hashlib.md5()
   m.update(datetime.utcnow().isoformat())
@@ -19,12 +13,25 @@ def render():
   
 @csrf_exempt
 def validate_config(request):
+  # Cheat a bit; any config is valid as we will default the size
+  # if not specified
   return HttpResponse('{"valid":true}')
   
   
 def sample(request):
-  return render()
+  context = {"w":19,"h":25,"d":19}
+  return render(context);
   
 def edition(request):
-  return render()
+  # default to large - as that is what existing subscribers will expect
+  context = {"w":19,"h":25,"d":19}
+  if "size" in request.GET:
+      if request.GET["size"] == "small":
+          context = {"w":9,"h":12,"d":40}
+      elif request.GET["size"] == "medium":
+          context = {"w":13,"h":17,"d":27}
+      elif request.GET["size"] == "large":
+          context = {"w":19,"h":25,"d":19}
+      
+  return render(context)
 

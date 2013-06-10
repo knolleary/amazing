@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 import os
 
 urlpatterns = patterns('',
-    (r'^$','amazing.views.index'),
+    (r'^$','amazing.views.sample'),
     (r'^edition/?$','amazing.views.edition'),
     (r'^sample/?$','amazing.views.sample'),
     (r'^validate_config/?$','amazing.views.validate_config'),

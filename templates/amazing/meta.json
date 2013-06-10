@@ -5,5 +5,18 @@
     "description": "A daily maze to get lost in",
     "delivered_on": "every day",
     "send_delivery_count": "false",
-    "external_configuration": "false"
+    "external_configuration": "false",
+    "config": {
+        "fields": [{
+                    "type": "select",
+                    "name": "size",
+                    "label": "Choose a maze size",
+                    "options": 
+                    [
+                        ["Small","small"],
+                        ["Medium", "medium"],
+                        ["Large", "large"]
+                    ] 
+                }]
+    }
 }

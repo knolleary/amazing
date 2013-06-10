@@ -37,9 +37,9 @@ var south = 4;
 var west = 8;
 
 function init() {
-   var w = 19;
-   var h = 25;
-   var d = 19;
+   var w =  {{ w }};// 30;// 10;// 19;//
+   var h =  {{ h }};// 40;// 13;// 25;//
+   var d =  {{ d }};// 12;// 36;// 19;//
    var e = document.getElementById('box');
    
    var m = [];
@@ -152,10 +152,10 @@ function init() {
    
    function createGoal(x,y) {
       var div = document.createElement("div");
-      div.style.top = 5+(y*d)+"px";
-      div.style.left = 5+(3+x*d)+"px";
-      div.style.width = (d-12)+"px";
-      div.style.height = (d-12)+"px";
+      div.style.top = ((y+0.5)*d-4)+"px";
+      div.style.left = ((x+0.5)*d-1)+"px";
+      div.style.width = "5px";
+      div.style.height = "5px";
       
       div.style.border = "2px solid #000";
       div.style.borderRadius = (d)+"px";
@@ -171,25 +171,25 @@ function init() {
    createGoal(Math.floor((w/3)+Math.random()*w/3),Math.floor((h/3)+Math.random()*h/3));
    
    var start = document.createElement("div");
-   start.style.top = (-1*(d/2))+"px";
-   start.style.left = ((d/4)+topX*d)+"px";
+   start.style.top = (-1*(19/2))+"px";
+   start.style.left = ((19/4)+topX*d+(d/2)-9)+"px";
    start.style.width = "0px";
    start.style.height = "0px";
    start.style.borderRadius = "0";
-   start.style.borderLeft = (d/2-1)+"px solid #fff";
-   start.style.borderTop = (d/2-1)+"px solid #000";
-   start.style.borderRight = (d/2-1)+"px solid #fff";
+   start.style.borderLeft = (19/2-1)+"px solid #fff";
+   start.style.borderTop = (19/2-1)+"px solid #000";
+   start.style.borderRight = (19/2-1)+"px solid #fff";
    e.appendChild(start);
    
    var end = document.createElement("div");
    end.style.top = (8+h*d)+"px";
-   end.style.left = ((d/4)+bottomX*d)+"px";
+   end.style.left = ((19/4)+bottomX*d+(d/2)-9)+"px";
    end.style.width = "0px";
    end.style.height = "0px";
    end.style.borderRadius = "0";
-   end.style.borderLeft = (d/2-1)+"px solid #fff";
-   end.style.borderTop = (d/2-1)+"px solid #000";
-   end.style.borderRight = (d/2-1)+"px solid #fff";
+   end.style.borderLeft = (19/2-1)+"px solid #fff";
+   end.style.borderTop = (19/2-1)+"px solid #000";
+   end.style.borderRight = (19/2-1)+"px solid #fff";
    e.appendChild(end);
    
    
