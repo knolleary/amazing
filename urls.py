@@ -11,4 +11,5 @@ urlpatterns = patterns('',
 
     (r'^meta.json$',direct_to_template,{'template':'amazing/meta.json'}),
     (r'^icon.png$', 'django.views.static.serve',{'path': 'icon.png','document_root': os.path.dirname(__file__),}),
+    (r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.dirname(__file__)+"/static"}),
 )
