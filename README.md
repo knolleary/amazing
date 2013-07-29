@@ -1,4 +1,4 @@
-amazing
+Daily Maze for Little Printer
 =======
 
 Django app for a Little Printer publication that generates a random maze with each edition
